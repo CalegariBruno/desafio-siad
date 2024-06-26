@@ -1,6 +1,6 @@
 package com.example.desafio.siad.domain.pessoa;
 
-import com.example.desafio.siad.domain.pessoa.endereco.Endereco;
+import com.example.desafio.siad.domain.endereco.Endereco;
 import com.example.desafio.siad.domain.venda.Venda;
 import jakarta.persistence.*;
 import lombok.*;
