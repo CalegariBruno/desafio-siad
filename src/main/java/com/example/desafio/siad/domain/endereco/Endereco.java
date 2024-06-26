@@ -1,4 +1,4 @@
-package com.example.desafio.siad.domain.pessoa.endereco;
+package com.example.desafio.siad.domain.endereco;
 
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import jakarta.persistence.*;
