@@ -2,6 +2,7 @@ package com.example.desafio.siad.domain.produto;
 
 import com.example.desafio.siad.domain.pessoa.PessoaJuridica;
 import com.example.desafio.siad.domain.venda.Venda;
+import com.example.desafio.siad.dtos.ProdutoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,4 +32,9 @@ public class Produto {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
     private List<Venda> vendas;
 
+    public Produto(ProdutoDTO produtoDTO, PessoaJuridica pessoa) {
+        this.nome = produtoDTO.nome();
+        this.valor = produtoDTO.valor();
+        this.pessoa = pessoa;
+    }
 }
