@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pessoa {
+public abstract class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,6 +22,7 @@ public class Pessoa {
 
     private String nome;
 
-    private Date dataNascimento;
+    @JoinColumn(name = "data_nascimento")
+    private LocalDate dataNascimento;
 
 }
