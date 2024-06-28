@@ -1,37 +1,37 @@
 package com.example.desafio.siad.services;
 
+import com.example.desafio.siad.domain.pessoa.Pessoa;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.dtos.PessoaFisicaDTO;
-import com.example.desafio.siad.repositories.pessoa.PessoaFisicaRepository;
+import com.example.desafio.siad.repositories.pessoa.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PessoaFisicaService {
 
     @Autowired
-    private PessoaFisicaRepository pessoaFisicaRepository;
+    private PessoaRepository pessoaFisicaRepository;
 
-    public PessoaFisica createPessoa(PessoaFisicaDTO pessoa){
-        PessoaFisica newPessoa = new PessoaFisica(pessoa);
+    public Pessoa createPessoa(PessoaFisicaDTO pessoa){
+        Pessoa newPessoa = new PessoaFisica(pessoa);
         savePessoa(newPessoa);
         return newPessoa;
     }
 
-    public void deletePessoa(UUID id) {
-        PessoaFisica pessoa = pessoaFisicaRepository.findById(String.valueOf(id))
+    public void deletePessoa(String id) {
+        Pessoa pessoa = pessoaFisicaRepository.findById(String.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
         pessoaFisicaRepository.delete(pessoa);
     }
 
-    public List<PessoaFisica> getAllPessoas(){
+    public List<Pessoa> getAllPessoas(){
         return this.pessoaFisicaRepository.findAll();
     }
 
-    private void savePessoa(PessoaFisica pessoa){
+    private void savePessoa(Pessoa pessoa){
         pessoaFisicaRepository.save(pessoa);
     }
 

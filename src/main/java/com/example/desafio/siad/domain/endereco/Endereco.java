@@ -29,7 +29,7 @@ public class Endereco {
     //utilização de string pois em alguns locais o numero da residência pode ter uma letra. ex: 10A
     private String numero;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pessoa")
     private PessoaFisica pessoa;
 

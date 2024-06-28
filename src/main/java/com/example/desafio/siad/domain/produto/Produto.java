@@ -25,16 +25,17 @@ public class Produto {
 
     private Double valor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pessoa")
     private PessoaJuridica pessoa;
 
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "produto")
     private List<Venda> vendas;
 
-    public Produto(ProdutoDTO produtoDTO, PessoaJuridica pessoa) {
-        this.nome = produtoDTO.nome();
-        this.valor = produtoDTO.valor();
-        this.pessoa = pessoa;
-    }
+//    public Produto(ProdutoDTO produtoDTO) {
+//        this.nome = produtoDTO.nome();
+//        this.valor = produtoDTO.valor();
+//        this.pessoa = produtoDTO.pessoa();
+//    }
+
 }

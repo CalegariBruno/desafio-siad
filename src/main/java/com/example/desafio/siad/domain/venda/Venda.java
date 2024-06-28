@@ -24,16 +24,15 @@ public class Venda {
 
     private Integer quantidade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pessoa")
     private PessoaFisica pessoa;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_produto")
     private Produto produto;
 
     public Venda (VendaDTO dto, PessoaFisica pessoa, Produto produto){
-        this.total = dto.total();
         this.quantidade = dto.quantidade();
         this.pessoa = pessoa;
         this.produto = produto;

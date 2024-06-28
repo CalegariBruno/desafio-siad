@@ -3,6 +3,7 @@ package com.example.desafio.siad.domain.pessoa;
 import com.example.desafio.siad.domain.endereco.Endereco;
 import com.example.desafio.siad.domain.venda.Venda;
 import com.example.desafio.siad.dtos.PessoaFisicaDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class PessoaFisica extends Pessoa{
     @JoinColumn(unique = true)
     private String cpf;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<Endereco> enderecos;
 

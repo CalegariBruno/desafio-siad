@@ -1,5 +1,6 @@
 package com.example.desafio.siad.controllers;
 
+import com.example.desafio.siad.domain.pessoa.Pessoa;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.dtos.PessoaFisicaDTO;
 import com.example.desafio.siad.services.PessoaFisicaService;
@@ -19,23 +20,21 @@ public class PessoaFisicaController {
     private PessoaFisicaService pessoaService;
 
     @PostMapping
-    public ResponseEntity<PessoaFisica> createPessoaFisica(@RequestBody PessoaFisicaDTO pessoaFisicaDTO){
-        PessoaFisica pessoa = pessoaService.createPessoa(pessoaFisicaDTO);
+    public ResponseEntity<Pessoa> createPessoaFisica(@RequestBody PessoaFisicaDTO pessoaFisicaDTO){
+        Pessoa pessoa = pessoaService.createPessoa(pessoaFisicaDTO);
         return new ResponseEntity<>(pessoa, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<PessoaFisica>> getAllPessoaFisica(){
-        List<PessoaFisica> pessoas = pessoaService.getAllPessoas();
+    public ResponseEntity<List<Pessoa>> getAllPessoaFisica(){
+        List<Pessoa> pessoas = pessoaService.getAllPessoas();
         return new ResponseEntity<>(pessoas, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePessoa(@PathVariable UUID id) {
+    public ResponseEntity<Void> deletePessoa(@PathVariable String id) {
         pessoaService.deletePessoa(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
 }
