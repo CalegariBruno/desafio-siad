@@ -1,6 +1,5 @@
 package com.example.desafio.siad.controllers;
 
-import com.example.desafio.siad.domain.pessoa.Pessoa;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.dtos.PessoaFisicaDTO;
 import com.example.desafio.siad.repositories.pessoa.PessoaFisicaRepository;
@@ -26,7 +25,7 @@ public class PessoaFisicaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PessoaFisica>> getAllPessoaFisica(){
+    public ResponseEntity<List<PessoaFisica>> getAllPessoas(){
         List<PessoaFisica> pessoas = repository.findAll();
         return new ResponseEntity<>(pessoas, HttpStatus.OK);
     }
@@ -40,7 +39,7 @@ public class PessoaFisicaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable String id, @RequestBody PessoaFisicaDTO pessoaFisicaDTO) {
+    public ResponseEntity<PessoaFisica> updatePessoa(@PathVariable String id, @RequestBody PessoaFisicaDTO pessoaFisicaDTO) {
 
         // Buscar a pessoa pelo ID
         PessoaFisica pessoa = repository.findById(id)
@@ -50,7 +49,7 @@ public class PessoaFisicaController {
         pessoa.setDataNascimento(pessoaFisicaDTO.dataNascimento());
         pessoa.setCpf(pessoaFisicaDTO.cpf());
 
-        repository.save( (PessoaFisica) pessoa);
+        repository.save(pessoa);
 
         return  new ResponseEntity<>(pessoa, HttpStatus.OK);
     }

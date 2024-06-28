@@ -1,12 +1,9 @@
 package com.example.desafio.siad.controllers;
 
-import com.example.desafio.siad.domain.pessoa.Pessoa;
 import com.example.desafio.siad.domain.pessoa.PessoaJuridica;
 import com.example.desafio.siad.domain.produto.Produto;
-import com.example.desafio.siad.dtos.PessoaJuridicaDTO;
 import com.example.desafio.siad.dtos.ProdutoDTO;
 import com.example.desafio.siad.repositories.pessoa.PessoaJuridicaRepository;
-import com.example.desafio.siad.repositories.pessoa.PessoaRepository;
 import com.example.desafio.siad.repositories.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,13 +30,11 @@ public class ProdutoController {
         newProduto.setValor(produtoDTO.valor());
         newProduto.setNome(produtoDTO.nome());
 
-        if (produtoDTO.pessoa()!=null){
-            String pessoaId = produtoDTO.pessoa();
-            PessoaJuridica pessoa = juridicaRepository.findById(pessoaId)
-                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+        String pessoaId = produtoDTO.pessoa();
+        PessoaJuridica pessoa = juridicaRepository.findById(pessoaId)
+                .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
 
-            newProduto.setPessoa(pessoa);
-        }
+        newProduto.setPessoa(pessoa);
 
         repository.save(newProduto);
         return new ResponseEntity<>(newProduto, HttpStatus.CREATED);
@@ -54,13 +49,13 @@ public class ProdutoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduto(@PathVariable Integer id) {
         Produto produto = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
         repository.delete(produto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> updatePessoaFisica(@PathVariable Integer id, @RequestBody ProdutoDTO produtoDTO) {
+    public ResponseEntity<Produto> updateProduto(@PathVariable Integer id, @RequestBody ProdutoDTO produtoDTO) {
 
         // Buscar o produto pelo ID
         Produto produto = repository.findById(id)
@@ -69,13 +64,11 @@ public class ProdutoController {
         produto.setValor(produtoDTO.valor());
         produto.setNome(produtoDTO.nome());
 
-        if (produtoDTO.pessoa()!=null){
-            String pessoaId = produtoDTO.pessoa();
-            PessoaJuridica pessoa = juridicaRepository.findById(pessoaId)
-                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+        String pessoaId = produtoDTO.pessoa();
+        PessoaJuridica pessoa = juridicaRepository.findById(pessoaId)
+                .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
 
-            produto.setPessoa(pessoa);
-        }
+        produto.setPessoa(pessoa);
 
         repository.save(produto);
 

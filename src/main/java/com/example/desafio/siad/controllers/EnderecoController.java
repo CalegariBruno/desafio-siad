@@ -3,7 +3,6 @@ package com.example.desafio.siad.controllers;
 import com.example.desafio.siad.domain.endereco.Endereco;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.dtos.EnderecoDTO;
-import com.example.desafio.siad.dtos.PessoaFisicaDTO;
 import com.example.desafio.siad.repositories.endereco.EnderecoRepository;
 import com.example.desafio.siad.repositories.pessoa.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +33,11 @@ public class EnderecoController {
         newEndereco.setCidade(enderecoDTO.cidade());
         newEndereco.setRua(enderecoDTO.rua());
 
-        if (enderecoDTO.pessoa()!=null){
-            String pessoaId = enderecoDTO.pessoa();
-            PessoaFisica pessoa = fisicaRepository.findById(pessoaId)
-                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+        String pessoaId = enderecoDTO.pessoa();
+        PessoaFisica pessoa = fisicaRepository.findById(pessoaId)
+                .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
 
-            newEndereco.setPessoa(pessoa);
-        }
+        newEndereco.setPessoa(pessoa);
 
         repository.save(newEndereco);
 
@@ -48,7 +45,7 @@ public class EnderecoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Endereco>> getAllEndereco(){
+    public ResponseEntity<List<Endereco>> getAllEnderecos(){
         List<Endereco> enderecos = repository.findAll();
         return new ResponseEntity<>(enderecos, HttpStatus.OK);
     }
@@ -62,7 +59,7 @@ public class EnderecoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Endereco> updatePessoaFisica(@PathVariable Integer id, @RequestBody  EnderecoDTO enderecoDTO) {
+    public ResponseEntity<Endereco> updateEndereco(@PathVariable Integer id, @RequestBody  EnderecoDTO enderecoDTO) {
 
         // Buscar a pessoa pelo ID
         Endereco endereco = repository.findById(id)
@@ -74,13 +71,11 @@ public class EnderecoController {
         endereco.setCidade(endereco.getCidade());
         endereco.setNumero(enderecoDTO.numero());
 
-        if (enderecoDTO.pessoa()!=null){
-            String pessoaId = enderecoDTO.pessoa();
-            PessoaFisica pessoa = fisicaRepository.findById(pessoaId)
-                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+        String pessoaId = enderecoDTO.pessoa();
+        PessoaFisica pessoa = fisicaRepository.findById(pessoaId)
+                .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
 
-            endereco.setPessoa(pessoa);
-        }
+        endereco.setPessoa(pessoa);
 
         repository.save( endereco );
 

@@ -1,14 +1,10 @@
 package com.example.desafio.siad.controllers;
 
-import com.example.desafio.siad.domain.pessoa.Pessoa;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
-import com.example.desafio.siad.domain.pessoa.PessoaJuridica;
 import com.example.desafio.siad.domain.produto.Produto;
 import com.example.desafio.siad.domain.venda.Venda;
-import com.example.desafio.siad.dtos.ProdutoDTO;
 import com.example.desafio.siad.dtos.VendaDTO;
 import com.example.desafio.siad.repositories.pessoa.PessoaFisicaRepository;
-import com.example.desafio.siad.repositories.pessoa.PessoaRepository;
 import com.example.desafio.siad.repositories.produto.ProdutoRepository;
 import com.example.desafio.siad.repositories.venda.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +38,7 @@ public class VendaController {
         // Buscar a produto pelo ID
         Integer produtoId = vendaDTO.produto();
         Produto produto = produtoRepository.findById(produtoId)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrada"));
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
         Venda newVenda = new Venda();
 
@@ -71,7 +67,7 @@ public class VendaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Venda> updatePessoaFisica(@PathVariable Integer id, @RequestBody VendaDTO vendaDTO) {
+    public ResponseEntity<Venda> updateVenda(@PathVariable Integer id, @RequestBody VendaDTO vendaDTO) {
 
         // Buscar a venda existente pelo ID
         Venda venda = repository.findById(id)
@@ -92,7 +88,6 @@ public class VendaController {
         venda.setTotal( venda.getQuantidade() * venda.getProduto().getValor() );
 
         repository.save(venda);
-
         return new ResponseEntity<>(venda, HttpStatus.OK);
     }
 

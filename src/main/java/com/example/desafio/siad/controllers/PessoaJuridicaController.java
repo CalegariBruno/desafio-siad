@@ -1,8 +1,6 @@
 package com.example.desafio.siad.controllers;
 
-import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.domain.pessoa.PessoaJuridica;
-import com.example.desafio.siad.dtos.PessoaFisicaDTO;
 import com.example.desafio.siad.dtos.PessoaJuridicaDTO;
 import com.example.desafio.siad.repositories.pessoa.PessoaJuridicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +33,13 @@ public class PessoaJuridicaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePessoa(@PathVariable String id) {
         PessoaJuridica pessoa = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
         repository.delete(pessoa);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaJuridica> updatePessoaFisica(@PathVariable String id, @RequestBody PessoaJuridicaDTO pessoaJuridicaDTO) {
+    public ResponseEntity<PessoaJuridica> updatePessoa(@PathVariable String id, @RequestBody PessoaJuridicaDTO pessoaJuridicaDTO) {
 
         // Buscar a pessoa pelo ID
         PessoaJuridica pessoa = repository.findById(id)
