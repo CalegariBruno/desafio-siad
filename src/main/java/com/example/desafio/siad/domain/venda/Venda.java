@@ -2,8 +2,6 @@ package com.example.desafio.siad.domain.venda;
 
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.domain.produto.Produto;
-import com.example.desafio.siad.dtos.ProdutoDTO;
-import com.example.desafio.siad.dtos.VendaDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

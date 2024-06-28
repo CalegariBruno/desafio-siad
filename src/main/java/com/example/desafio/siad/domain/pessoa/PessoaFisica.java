@@ -21,15 +21,16 @@ public class PessoaFisica extends Pessoa{
     private String cpf;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
     private List<Endereco> enderecos;
 
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
     private List<Venda> vendas;
 
     public PessoaFisica(PessoaFisicaDTO pessoaFisica) {
         this.setNome(pessoaFisica.nome());
         this.setDataNascimento(pessoaFisica.dataNascimento());
-        this.setCpf(pessoaFisica.cpf());
+        this.cpf = pessoaFisica.cpf();
     }
 }

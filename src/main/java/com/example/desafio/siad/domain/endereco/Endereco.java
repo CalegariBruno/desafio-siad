@@ -1,7 +1,6 @@
 package com.example.desafio.siad.domain.endereco;
 
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
-import com.example.desafio.siad.dtos.EnderecoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -29,13 +29,7 @@ public class Produto {
     @JoinColumn(name = "id_pessoa")
     private PessoaJuridica pessoa;
 
-    @OneToMany(mappedBy = "produto")
+    @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
     private List<Venda> vendas;
-
-//    public Produto(ProdutoDTO produtoDTO) {
-//        this.nome = produtoDTO.nome();
-//        this.valor = produtoDTO.valor();
-//        this.pessoa = produtoDTO.pessoa();
-//    }
 
 }
