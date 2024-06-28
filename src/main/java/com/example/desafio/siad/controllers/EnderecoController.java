@@ -1,11 +1,11 @@
 package com.example.desafio.siad.controllers;
 
 import com.example.desafio.siad.domain.endereco.Endereco;
-import com.example.desafio.siad.domain.pessoa.Pessoa;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.dtos.EnderecoDTO;
+import com.example.desafio.siad.dtos.PessoaFisicaDTO;
 import com.example.desafio.siad.repositories.endereco.EnderecoRepository;
-import com.example.desafio.siad.repositories.pessoa.PessoaRepository;
+import com.example.desafio.siad.repositories.pessoa.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class EnderecoController {
     private EnderecoRepository repository;
 
     @Autowired
-    private PessoaRepository fisicaRepository;
+    private PessoaFisicaRepository fisicaRepository;
 
     @PostMapping
     public ResponseEntity<Endereco> createEndereco(@RequestBody EnderecoDTO enderecoDTO){
@@ -36,14 +36,10 @@ public class EnderecoController {
 
         if (enderecoDTO.pessoa()!=null){
             String pessoaId = enderecoDTO.pessoa();
-            Pessoa pessoa = fisicaRepository.findById(pessoaId)
+            PessoaFisica pessoa = fisicaRepository.findById(pessoaId)
                     .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
 
-            // Verificar se é uma PessoaFisica
-            if (!(pessoa instanceof PessoaFisica)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-            newEndereco.setPessoa((PessoaFisica) pessoa);
+            newEndereco.setPessoa(pessoa);
         }
 
         repository.save(newEndereco);
@@ -64,4 +60,31 @@ public class EnderecoController {
         repository.delete(endereco);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Endereco> updatePessoaFisica(@PathVariable Integer id, @RequestBody  EnderecoDTO enderecoDTO) {
+
+        // Buscar a pessoa pelo ID
+        Endereco endereco = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+
+        endereco.setRua(enderecoDTO.rua());
+        endereco.setBairro(endereco.getBairro());
+        endereco.setCep(enderecoDTO.cep());
+        endereco.setCidade(endereco.getCidade());
+        endereco.setNumero(enderecoDTO.numero());
+
+        if (enderecoDTO.pessoa()!=null){
+            String pessoaId = enderecoDTO.pessoa();
+            PessoaFisica pessoa = fisicaRepository.findById(pessoaId)
+                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+
+            endereco.setPessoa(pessoa);
+        }
+
+        repository.save( endereco );
+
+        return new ResponseEntity<>(endereco, HttpStatus.OK);
+    }
+
 }

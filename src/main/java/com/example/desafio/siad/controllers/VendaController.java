@@ -2,9 +2,12 @@ package com.example.desafio.siad.controllers;
 
 import com.example.desafio.siad.domain.pessoa.Pessoa;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
+import com.example.desafio.siad.domain.pessoa.PessoaJuridica;
 import com.example.desafio.siad.domain.produto.Produto;
 import com.example.desafio.siad.domain.venda.Venda;
+import com.example.desafio.siad.dtos.ProdutoDTO;
 import com.example.desafio.siad.dtos.VendaDTO;
+import com.example.desafio.siad.repositories.pessoa.PessoaFisicaRepository;
 import com.example.desafio.siad.repositories.pessoa.PessoaRepository;
 import com.example.desafio.siad.repositories.produto.ProdutoRepository;
 import com.example.desafio.siad.repositories.venda.VendaRepository;
@@ -26,20 +29,15 @@ public class VendaController {
     private ProdutoRepository produtoRepository;
 
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private PessoaFisicaRepository pessoaRepository;
 
     @PostMapping
     public ResponseEntity<Venda> createVenda(@RequestBody VendaDTO vendaDTO) {
 
         // Buscar a pessoa pelo ID
         String pessoaId = vendaDTO.pessoa();
-        Pessoa pessoa = pessoaRepository.findById(String.valueOf(pessoaId))
+        PessoaFisica pessoa = pessoaRepository.findById(String.valueOf(pessoaId))
                 .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
-
-        // Verificar se é uma PessoaFisica
-        if (!(pessoa instanceof PessoaFisica)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
 
         // Buscar a produto pelo ID
         Integer produtoId = vendaDTO.produto();
@@ -49,7 +47,7 @@ public class VendaController {
         Venda newVenda = new Venda();
 
         newVenda.setQuantidade(vendaDTO.quantidade());
-        newVenda.setPessoa((PessoaFisica) pessoa);
+        newVenda.setPessoa(pessoa);
         newVenda.setProduto(produto);
 
         newVenda.setTotal( newVenda.getQuantidade() * newVenda.getProduto().getValor() );
@@ -70,6 +68,32 @@ public class VendaController {
                 .orElseThrow(() -> new RuntimeException("Venda não encontrada"));
         repository.delete(venda);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Venda> updatePessoaFisica(@PathVariable Integer id, @RequestBody VendaDTO vendaDTO) {
+
+        // Buscar a venda existente pelo ID
+        Venda venda = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venda não encontrada"));
+
+        // Buscar a pessoa física pelo ID do DTO
+        PessoaFisica pessoaFisica = pessoaRepository.findById(vendaDTO.pessoa())
+                .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+
+        // Buscar o produto pelo ID do DTO
+        Produto produto = produtoRepository.findById(vendaDTO.produto())
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        venda.setQuantidade(vendaDTO.quantidade());
+        venda.setPessoa(pessoaFisica);
+        venda.setProduto(produto);
+
+        venda.setTotal( venda.getQuantidade() * venda.getProduto().getValor() );
+
+        repository.save(venda);
+
+        return new ResponseEntity<>(venda, HttpStatus.OK);
     }
 
 }
