@@ -3,6 +3,7 @@ package com.example.desafio.siad.domain.produto;
 import com.example.desafio.siad.domain.pessoa.PessoaJuridica;
 import com.example.desafio.siad.domain.venda.Venda;
 import com.example.desafio.siad.dtos.ProdutoDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class Produto {
     @JoinColumn(name = "id_pessoa")
     private PessoaJuridica pessoa;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
     private List<Venda> vendas;
 
