@@ -32,10 +32,4 @@ public class Venda {
     @JoinColumn(name = "id_produto")
     private Produto produto;
 
-    public Venda (VendaDTO dto, PessoaFisica pessoa, Produto produto){
-        this.quantidade = dto.quantidade();
-        this.pessoa = pessoa;
-        this.produto = produto;
-    }
-
 }

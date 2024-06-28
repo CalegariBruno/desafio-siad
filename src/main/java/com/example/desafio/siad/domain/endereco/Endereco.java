@@ -33,12 +33,4 @@ public class Endereco {
     @JoinColumn(name = "id_pessoa")
     private PessoaFisica pessoa;
 
-    public Endereco(EnderecoDTO endereco, PessoaFisica pessoa) {
-        this.cep = endereco.cep();
-        this.bairro = endereco.bairro();
-        this.rua = endereco.rua();
-        this.cidade = endereco.cidade();
-        this.numero = endereco.numero();
-        this.pessoa = pessoa;
-    }
 }
