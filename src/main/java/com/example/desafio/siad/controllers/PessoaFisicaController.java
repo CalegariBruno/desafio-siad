@@ -1,5 +1,6 @@
 package com.example.desafio.siad.controllers;
 
+import com.example.desafio.siad.domain.endereco.Endereco;
 import com.example.desafio.siad.domain.pessoa.PessoaFisica;
 import com.example.desafio.siad.dtos.PessoaFisicaDTO;
 import com.example.desafio.siad.repositories.pessoa.PessoaFisicaRepository;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("fisica")
@@ -16,6 +18,8 @@ public class PessoaFisicaController {
 
     @Autowired
     private PessoaFisicaRepository repository;
+
+    private EnderecoController enderecoController;
 
     @PostMapping
     public ResponseEntity<PessoaFisica> createPessoa(@RequestBody PessoaFisicaDTO pessoaDTO){
@@ -48,6 +52,15 @@ public class PessoaFisicaController {
         pessoa.setNome(pessoaFisicaDTO.nome());
         pessoa.setDataNascimento(pessoaFisicaDTO.dataNascimento());
         pessoa.setCpf(pessoaFisicaDTO.cpf());
+
+        pessoa.getEnderecos().clear();
+        pessoa.setEnderecos(pessoaFisicaDTO.enderecos().stream().map(dto -> {
+            Endereco endereco = new Endereco();
+            endereco.setRua(dto.getRua());
+            endereco.setCidade(dto.getCidade());
+            endereco.setPessoa(pessoa);
+            return endereco;
+        }).collect(Collectors.toList()));
 
         repository.save(pessoa);
 

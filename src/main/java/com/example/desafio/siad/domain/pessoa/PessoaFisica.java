@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "pessoa_fisica")
@@ -21,7 +22,7 @@ public class PessoaFisica extends Pessoa{
     private String cpf;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Endereco> enderecos;
 
     @JsonIgnore
@@ -32,5 +33,16 @@ public class PessoaFisica extends Pessoa{
         this.setNome(pessoaFisica.nome());
         this.setDataNascimento(pessoaFisica.dataNascimento());
         this.cpf = pessoaFisica.cpf();
+        this.enderecos = pessoaFisica.enderecos().stream().map(
+                dto -> {
+                    Endereco endereco = new Endereco();
+                    endereco.setCep(dto.getCep());
+                    endereco.setNumero(dto.getNumero());
+                    endereco.setBairro(dto.getBairro());
+                    endereco.setRua(dto.getRua());
+                    endereco.setCidade(dto.getCidade());
+                    endereco.setPessoa(this);
+                    return endereco;
+                }).collect(Collectors.toList());
     }
 }

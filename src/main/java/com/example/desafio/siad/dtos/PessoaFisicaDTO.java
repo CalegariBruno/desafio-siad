@@ -1,6 +1,9 @@
 package com.example.desafio.siad.dtos;
 
-import java.time.LocalDate;
+import com.example.desafio.siad.domain.endereco.Endereco;
 
-public record PessoaFisicaDTO(String nome, LocalDate dataNascimento, String cpf) {
+import java.time.LocalDate;
+import java.util.List;
+
+public record PessoaFisicaDTO(String nome, LocalDate dataNascimento, String cpf, List<Endereco> enderecos) {
 }
